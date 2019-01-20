@@ -1,5 +1,8 @@
 # Oracle_OCI-ShellScripts
 
+#Multipart upload 
+https://github.com/oracle/oci-python-sdk/blob/master/examples/multipart_object_upload.py
+
 # example taken from
 http://www.dominicgiles.com/blog/files/edc48236165eb010807ef6e8262a1711-165.html
 
