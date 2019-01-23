@@ -1,0 +1,139 @@
+STEP1: Generate key
+
+https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#How
+
+
+
+
+STEP2: Install oci cli using python  
+python -m pip install oci-cli
+
+(venv) C:\Users\amits>oci --version
+2.4.41
+
+
+
+
+
+STEP3: Create config file
+C:\Users\amits>mkdir .oci
+
+(venv) C:\Users\amits\.oci>type config
+[DEFAULT]
+user=ocid1.user.oc1..aaaaaaaa3lc5mffcjd327f36awpd277eilpqjmx7co5m2w2hs3raowuqy6wa
+fingerprint=a5:07:9c:dc:ab:76:ac:cd:bb:2d:25:e5:9c:96:d8:55
+key_file=C:\Users\amits\.oci\oci_api_key.pem
+tenancy=ocid1.tenancy.oc1..aaaaaaaanubon6bs4hw7u47oxvj5g7mggfmgzx46dadjlcwozsezo2ko5dwa
+region=eu-frankfurt-1
+
+
+
+
+
+
+
+
+STEP4: Use cli now.
+# list accont 
+(venv) C:\Users\amits\.oci>oci os ns get
+{
+  "data": "amitsuneja"
+}
+
+
+
+# list your compartment id
+(venv) C:\Users\amits\.oci>oci iam availability-domain list
+{
+  "data": [
+    {
+      "compartment-id": "ocid1.tenancy.oc1..aaaaaaaanubon6bs4hw7u47oxvj5g7mggfmgzx46dadjlcwozsezo2ko5dwa",
+      "id": "ocid1.availabilitydomain.oc1..aaaaaaaalcdcbl7u6akbmkojxhrozpj2v7yavqqydkj3ytyjbt47lnoqnm2q",
+      "name": "iHIH:EU-FRANKFURT-1-AD-1"
+    },
+    {
+      "compartment-id": "ocid1.tenancy.oc1..aaaaaaaanubon6bs4hw7u47oxvj5g7mggfmgzx46dadjlcwozsezo2ko5dwa",
+      "id": "ocid1.availabilitydomain.oc1..aaaaaaaaiifj24st3w4j7cowuo3pmqcuqwjapjv435vtjmgh5j7q3flguwna",
+      "name": "iHIH:EU-FRANKFURT-1-AD-2"
+    },
+    {
+      "compartment-id": "ocid1.tenancy.oc1..aaaaaaaanubon6bs4hw7u47oxvj5g7mggfmgzx46dadjlcwozsezo2ko5dwa",
+      "id": "ocid1.availabilitydomain.oc1..aaaaaaaaa2artt5wizbqvwl3rgptylx2l7jqbnyv4dygcfvlrd3dphvi3mdq",
+      "name": "iHIH:EU-FRANKFURT-1-AD-3"
+    }
+  ]
+}
+
+
+
+
+
+# list bucket in compartment
+(venv) C:\Users\amits\.oci>oci os bucket list -c ocid1.tenancy.oc1..aaaaaaaanubon6bs4hw7u47oxvj5g7mggfmgzx46dadjlcwozsezo2ko5dwa
+{
+  "data": [
+    {
+      "compartment-id": "ocid1.tenancy.oc1..aaaaaaaanubon6bs4hw7u47oxvj5g7mggfmgzx46dadjlcwozsezo2ko5dwa",
+      "created-by": "ocid1.user.oc1..aaaaaaaa3lc5mffcjd327f36awpd277eilpqjmx7co5m2w2hs3raowuqy6wa",
+      "defined-tags": {},
+      "etag": "fc77ff79-d45d-4404-9ebc-38958e2e168a",
+      "freeform-tags": {},
+      "name": "Sales_Data",
+      "namespace": "amitsuneja",
+      "time-created": "2019-01-22T17:51:46.817000+00:00"
+    },
+    {
+      "compartment-id": "ocid1.tenancy.oc1..aaaaaaaanubon6bs4hw7u47oxvj5g7mggfmgzx46dadjlcwozsezo2ko5dwa",
+      "created-by": "ocid1.user.oc1..aaaaaaaa3lc5mffcjd327f36awpd277eilpqjmx7co5m2w2hs3raowuqy6wa",
+      "defined-tags": {},
+      "etag": "6b7d45aa-70da-45c3-be68-69ea8e85a332",
+      "freeform-tags": {},
+      "name": "python-sdk-example-bucket",
+      "namespace": "amitsuneja",
+      "time-created": "2019-01-22T18:00:49.042000+00:00"
+    }
+  ]
+}
+
+
+
+
+
+# create bucket in compartment 
+(venv) C:\Users\amits\.oci>oci os bucket create -c ocid1.tenancy.oc1..aaaaaaaanubon6bs4hw7u47oxvj5g7mggfmgzx46dadjlcwozsezo2ko5dwa --name test_bucket
+{
+  "data": {
+    "approximate-count": null,
+    "approximate-size": null,
+    "compartment-id": "ocid1.tenancy.oc1..aaaaaaaanubon6bs4hw7u47oxvj5g7mggfmgzx46dadjlcwozsezo2ko5dwa",
+    "created-by": "ocid1.user.oc1..aaaaaaaa3lc5mffcjd327f36awpd277eilpqjmx7co5m2w2hs3raowuqy6wa",
+    "defined-tags": {},
+    "etag": "10df6d58-8f00-4983-8b9b-34b076371cd6",
+    "freeform-tags": {},
+    "kms-key-id": null,
+    "metadata": {},
+    "name": "test_bucket",
+    "namespace": "amitsuneja",
+    "object-lifecycle-policy-etag": null,
+    "public-access-type": "NoPublicAccess",
+    "storage-tier": "Standard",
+    "time-created": "2019-01-22T19:45:35.316000+00:00"
+  },
+  "etag": "10df6d58-8f00-4983-8b9b-34b076371cd6"
+}
+
+
+
+
+# setting variable
+(venv) D:\Centos0001_updated_untocuhed>set SIZE_IN_MB=1024
+
+
+
+
+
+# uploading file to bucket
+(venv) D:\Centos0001_updated_untocuhed>oci os object put  -bn test_bucket --name bucket_object_amit --file "CentOS 64-bit.vmdk"
+Upload ID: f2c4193a-1ee2-fb04-1252-4b8194ac503e
+Split file into 111 parts for upload.
+Uploading object  [------------------------------------]    0%
