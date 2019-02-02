@@ -1,0 +1,5 @@
+import oci
+config = oci.config.from_file(file_location="C:\\Users\\amits\\Desktop\\Oracle_Cloud\\config_file_oci.txt")
+identity = oci.identity.IdentityClient(config)
+user = identity.get_user(config["user"]).data
+print(user)
